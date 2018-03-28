@@ -13,7 +13,7 @@ jobs:
     steps:
       - run: |
           apt-get -qq update
-          apt-get install -y -qq libboost-all-dev golang curl cmake build-essential libssl-dev git-core
+          apt-get install -y -qq libboost-all-dev golang curl cmake build-essential libssl-dev libzmq3-dev git-core
       - restore_cache:
           keys:
             - v1-monero-{{ arch }}-v0.12.0.0.tar.gz
