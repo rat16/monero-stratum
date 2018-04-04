@@ -16,13 +16,15 @@ jobs:
           apt-get install -y -qq libboost-all-dev golang curl cmake build-essential libssl-dev libzmq3-dev git-core
       - restore_cache:
           keys:
-            - v1-monero-{{ arch }}-v0.12.0.0.tar.gz
+            - v1-monero-{{ arch }}-v0.12.0.0
       - run: |
-          curl -L -o ~/v0.12.0.0.tar.gz https://github.com/monero-project/monero/archive/v0.12.0.0.tar.gz
-          tar xzvf ~/v0.12.0.0.tar.gz -C ~/
-          pushd ~/monero-0.12.0.0 && cmake -DBUILD_SHARED_LIBS=1 . && make && popd
+          git clone --recurse-submodules https://github.com/monero-project/monero.git ~/monero-0.12.0.0
+          pushd ~/monero-0.12.0.0
+          git checkout tags/v0.12.0.0 -b v0.12.0.0
+          cmake -DBUILD_SHARED_LIBS=1 . && make
+          popd
       - save_cache:
-          key: v1-monero-{{ arch }}-v0.12.0.0.tar.gz
+          key: v1-monero-{{ arch }}-v0.12.0.0
           paths:
             - ~/monero-0.12.0.0
       - checkout
